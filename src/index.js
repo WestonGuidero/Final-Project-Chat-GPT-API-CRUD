@@ -1,8 +1,18 @@
+// Using an online API of your choice, create a React project. You will be working on this for the next three weeks.
+// Project must meet the following criteria:
+// Use React Router and have at least 3 pages using React Bootstrap or an alternative styling library - DONE
+// Contain at least 10 components - 2/10 DONE
+// Allow for all CRUD operations - 
+
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -11,7 +21,4 @@ root.render(
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();

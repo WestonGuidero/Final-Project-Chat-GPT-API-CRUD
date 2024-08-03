@@ -1,0 +1,30 @@
+.random-dog-container {
+    text-align: center;
+    margin: 20px;
+  }
+  
+  .dog-image-container {
+    display: inline-block;
+    position: relative;
+    max-width: 100%;
+  }
+  
+  .dog-image {
+    max-width: 100%;
+    height: auto;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+  }
+  
+  button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  p {
+    color: red;
+    font-weight: bold;
+  }
+  

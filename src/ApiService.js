@@ -3,11 +3,13 @@ import axios from 'axios';
 const apiClient = axios.create({
   baseURL: 'https://chatgpt-42.p.rapidapi.com',
   headers: {
-    'x-rapidapi-key': 'f86cdef181mshb29a26d30ff0418p1d3e31jsn3186742bc9fe',
-    'x-rapidapi-host': 'chatgpt-42.p.rapidapi.com',
+    'x-rapidapi-key': process.env.REACT_APP_CHATGPT_API_KEY,
+    'x-rapidapi-host': process.env.REACT_APP_CHATGPT_API_HOST,
     'Content-Type': 'application/json',
   },
 });
+
+export default apiClient;
 
 export const fetchChatGPTResponse = async (message) => {
   const payload = {

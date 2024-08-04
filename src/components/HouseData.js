@@ -1,12 +1,10 @@
-// src/components/HouseData.js
-import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Spinner } from 'react-bootstrap';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 
-const HouseData = () => {
+// Assuming you already have other code in this file, add the Reviews component here
+
+const Reviews = () => {
   const [reviews, setReviews] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -15,57 +13,49 @@ const HouseData = () => {
         method: 'GET',
         headers: {
           'x-rapidapi-key': process.env.REACT_APP_RAPIDAPI_KEY,
-          'x-rapidapi-host': 'zillow56.p.rapidapi.com'
+          'x-rapidapi-host': process.env.REACT_APP_RAPIDAPI_HOST,
         }
       };
 
       try {
-        const response = await axios.get(url, options);
-        setReviews(response.data.reviews);
+        const response = await fetch(url, options);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        setReviews(data.reviews);
       } catch (error) {
-        setError(error.message);
-      } finally {
-        setLoading(false);
+        setError('Error fetching reviews');
       }
     };
 
     fetchReviews();
   }, []);
 
-  if (loading) {
-    return (
-      <Container className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
-        <Spinner animation="border" />
-      </Container>
-    );
-  }
+  return (
+    <div>
+      <h1>Reviews</h1>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+      <ul>
+        {reviews.map((review, index) => (
+          <li key={index}>{review.comment}</li>
+        ))}
+      </ul>
+    </div>
+  );
+};
 
-  if (error) {
-    return (
-      <Container className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
-        <h2>{error}</h2>
-      </Container>
-    );
-  }
+
+
+// Or if housedata.js is a larger component, you can integrate Reviews into the main export
+const HouseData = () => {
+  // Your existing house data code here
 
   return (
-    <Container className="my-4">
-      <h1>Zillow Lender Reviews</h1>
-      <Row>
-        {reviews.map((review, index) => (
-          <Col key={index} md={4} className="mb-4">
-            <Card>
-              <Card.Body>
-                <Card.Title>{review.reviewerName}</Card.Title>
-                <Card.Text>{review.reviewText}</Card.Text>
-                <Card.Text>Rating: {review.rating}</Card.Text>
-                <Card.Text>Date: {new Date(review.reviewDate).toLocaleDateString()}</Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
-      </Row>
-    </Container>
+    <div>
+      {/* Your existing house data rendering code here */}
+      <Reviews />  {/* Include the Reviews component here */}
+    </div>
   );
 };
 

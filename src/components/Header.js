@@ -16,6 +16,7 @@ const Header = () => {
                     <Nav.Link as={Link} to="/mock-data">Mock Data</Nav.Link>
                     <Nav.Link as={Link} to="/stock-data">Stock Data</Nav.Link>
                     <Nav.Link as={Link} to="/chatgpt">ChatGPT</Nav.Link>
+                    <Nav.Link as={Link} to="/house-data">House Data</Nav.Link>
                 </Nav>
             </Navbar.Collapse>
         </Navbar>

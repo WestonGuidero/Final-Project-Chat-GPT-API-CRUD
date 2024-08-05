@@ -1,5 +1,5 @@
 // src/firebase.js
-require('dotenv').config();
+
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 // TODO: Add SDKs for Firebase products that you want to use

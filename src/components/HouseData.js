@@ -1,62 +1,55 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-// Assuming you already have other code in this file, add the Reviews component here
-
-const Reviews = () => {
-  const [reviews, setReviews] = useState([]);
-  const [error, setError] = useState('');
-
-  useEffect(() => {
-    const fetchReviews = async () => {
-      const url = 'https://zillow56.p.rapidapi.com/lender/reviews?screenName=mortgagecapitalpartners';
-      const options = {
-        method: 'GET',
-        headers: {
-          'x-rapidapi-key': process.env.REACT_APP_RAPIDAPI_KEY,
-          'x-rapidapi-host': process.env.REACT_APP_RAPIDAPI_HOST,
-        }
-      };
-
-      try {
-        const response = await fetch(url, options);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        setReviews(data.reviews);
-      } catch (error) {
-        setError('Error fetching reviews');
-      }
-    };
-
-    fetchReviews();
-  }, []);
-
-  return (
-    <div>
-      <h1>Reviews</h1>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <ul>
-        {reviews.map((review, index) => (
-          <li key={index}>{review.comment}</li>
-        ))}
-      </ul>
-    </div>
-  );
-};
-
-
-
-// Or if housedata.js is a larger component, you can integrate Reviews into the main export
 const HouseData = () => {
-  // Your existing house data code here
+    const [data, setData] = useState(null);
+    const [error, setError] = useState(null);
 
-  return (
-    <div>
-      {/* Your existing house data rendering code here */}
-      <Reviews />  {/* Include the Reviews component here */}
-    </div>
-  );
+    useEffect(() => {
+        const fetchData = async () => {
+            const options = {
+                method: 'GET',
+                url: 'https://zillow-base1.p.rapidapi.com/WebAPIs/zillow/search',
+                params: {
+                    location: 'Brownsville, TX',
+                    page: '1',
+                    status_type: 'ForSale',
+                    sort_by: 'Homes_For_You',
+                    listing_type: 'Cat1',
+                    days_on_zillow: '1_day'
+                },
+                headers: {
+                    'x-rapidapi-key': process.env.REACT_APP_ZILLOW_API_KEY,
+                    'x-rapidapi-host': process.env.REACT_APP_ZILLOW_API_HOST
+                }
+            };
+
+            try {
+                const response = await axios.request(options);
+                setData(response.data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                setError('Error fetching data');
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    if (error) {
+        return <div>{error}</div>;
+    }
+
+    return (
+        <div>
+            <h1>House Data</h1>
+            {data ? (
+                <pre>{JSON.stringify(data, null, 2)}</pre>
+            ) : (
+                <p>Loading...</p>
+            )}
+        </div>
+    );
 };
 
 export default HouseData;
